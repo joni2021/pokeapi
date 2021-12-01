@@ -16,7 +16,7 @@ let message = {
 let showMessage = function (message) {
     $('#errors').innerHTML = `
     <div class="alert alert-${message.status} d-flex align-items-center" role="alert">
-      <img width="76" src="${message.status === 'danger' ? errorGif : successGif}" />
+      <img width="76" alt="error" src="${message.status === 'danger' ? errorGif : successGif}" />
       <div>
         ${message.message}
       </div>
@@ -37,7 +37,7 @@ let hideMessage = function () {
 form.addEventListener('submit', function (ev) {
     ev.preventDefault();
 
-    const pokemon = $('input[type=search]').value;
+    const pokemon = $('input[type=search]').value.trim();
 
     if (is_null(pokemon)) {
         message = {
@@ -49,7 +49,7 @@ form.addEventListener('submit', function (ev) {
         return false;
     }
 
-    fetch(apiUrl + "?pokemon=" + pokemon,{
+    fetch(apiUrl + "?pokemon=" + encodeURIComponent(pokemon),{
         method: 'GET',
         mode: 'cors',
         headers: {
@@ -77,7 +77,9 @@ function is_null(val) {
 
 function showPokemons(pokemons)
 {
-    $("#content > .row").innerHTML = '';
+    let row = $("#content > .row");
+
+    row.innerHTML = '';
 
     let output = '';
 
@@ -134,7 +136,7 @@ function showPokemons(pokemons)
 
     })
 
-    $("#content > .row").innerHTML = output;
+    row.innerHTML = output;
 
 }
 
