@@ -1,0 +1,26 @@
+@font-face {
+  font-family: pokemon;
+  font-style: normal;
+  font-weight: 100;
+  src: url("../../../fonts/pokemon/pokemon_solid.ttf");
+}
+
+.pokedex {
+  height: 140px;
+  background: url("../../../img/pokedex.webp") no-repeat;
+  background-size: contain;
+
+  img {
+    margin-top: 15px;
+  }
+}
+
+.pokemons {
+  h3 {
+    font-family: pokemon, serif;
+    color: #ffcb01;
+    text-shadow: 3px 0 0 #2c72b7, -3px 0 0 #2c72b7, 0 3px 0 #2c72b7, 0 -3px 0 #2c72b7, 1px 1px #2c72b7, -2px -2px 0 #2c72b7, 2px -2px 0 #2c72b7, -2px 2px 0 #2c72b7;
+    letter-spacing: 2px;
+  }
+}
+
