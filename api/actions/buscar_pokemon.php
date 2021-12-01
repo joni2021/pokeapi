@@ -9,4 +9,4 @@ if($_SERVER['REQUEST_METHOD'] != 'GET'){
 
 $pokemons = json_decode(file_get_contents("../src/prueba.json"), true);
 
-echo json_encode(["status" => "ok", "data" => [$pokemons]]);
+echo json_encode(["status" => "ok", "data" => $pokemons]);

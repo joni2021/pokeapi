@@ -59,7 +59,7 @@ form.addEventListener('submit', function (ev) {
     .then(response => response.json())
     .then(response => {
         hideMessage();
-        showMessage(response.data)
+        showPokemons(response.data)
     })
     .catch(error => {
         message = {
@@ -77,7 +77,75 @@ function is_null(val) {
 
 function showPokemons(pokemons)
 {
-    // TODO: Armar el card, hacer el foreach recorriendo los pokemons e insertando los cards en cada vuelta.
-    let card = `
-    `
+    $("#content > .row").innerHTML = '';
+
+    let output = '';
+
+    pokemons.forEach((pokemon) => {
+        let types = getProperties(pokemon.types, "type", 'name');
+        let abilities = getProperties(pokemon.abilities, 'ability', 'name');
+
+        output += `
+        <div class="col-6">
+                <article class="card p-2 pokemons">
+                    <div class="row">
+                        <div class="col-auto">
+                            <div class="pokedex">
+                                <img src="${ pokemon.sprites.front_default }"
+                                     alt="${ pokemon.name }">
+                            </div>
+                        </div>
+                        <div class="col">
+                            <h3 class="h2">${ pokemon.name }</h3>
+                            <div class="row">
+                                <div class="col-6">
+                                    <h4>Tipo</h4>
+                                    <ul>
+                                    `;
+
+        types.forEach((type) => output += `<li>${ type }</li>`);
+
+        output += `</ul>
+                                </div>
+                                <div class="col-6">
+                                    <h4>Habilidades</h4>
+                                    <ul>
+                                    `;
+
+        abilities.forEach((ability) => output += `<li>${ ability }</li>`);
+
+        output += `</ul>
+                                </div>
+                                <div class="col-6">
+                                    <h4>Experiencia</h4>
+                                    <img src="assets/img/cp.png" alt="cp" width="30"> ${ pokemon.base_experience }
+                                </div>
+                                <div class="col-6">
+                                    <h4>Tamaño</h4>
+                                    <img src="assets/img/pokedex.png" alt="cp" width="30"> Altura: ${ pokemon.height } / Peso: ${ pokemon.weight }
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </article>
+            </div>`;
+
+
+
+    })
+
+    $("#content > .row").innerHTML = output;
+
+}
+
+
+function getProperties(props, pos, value)
+{
+    let properties = [];
+
+    if(props.length){
+        properties = props.map((prop) => prop[pos][value]);
+    }
+
+    return properties;
 }
