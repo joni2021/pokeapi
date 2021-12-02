@@ -3,11 +3,11 @@ namespace App;
 
 class Pokeapi
 {
-    protected $curl;
-    protected $header;
-    protected $httpResultado;
-    protected $httpCode;
-    protected $urlBase;
+    private $curl;
+    private $header;
+    private $httpResultado;
+    private $httpCode;
+    private $urlBase;
 
     /**
      * ApiUnidbFunction constructor.
@@ -25,9 +25,11 @@ class Pokeapi
      * @param string $method
      * @param array $body
      */
-    public function call($url = '', $method = 'GET', Array $body = [])
+    private function call($url = '', $method = 'GET', Array $body = [])
     {
-        $this->init($url);
+        $url = str_ireplace($this->urlBase, "", $url);
+
+        $this->init($this->urlBase . $url);
 
         curl_setopt($this->curl, CURLOPT_CUSTOMREQUEST, $method);
 
@@ -53,10 +55,10 @@ class Pokeapi
      */
     public function getResultado()
     {
-        return json_decode($this->httpResultado);
+        return json_decode($this->httpResultado, true);
     }
 
-    protected function close()
+    private function close()
     {
         curl_close($this->curl);
     }
@@ -64,7 +66,7 @@ class Pokeapi
     /**
      * @return mixed
      */
-    protected function exec()
+    private function exec()
     {
         return curl_exec($this->curl);
     }
@@ -72,7 +74,7 @@ class Pokeapi
     /**
      * @param $url
      */
-    protected function init($url)
+    private function init($url)
     {
         $this->curl = curl_init();
         curl_setopt($this->curl, CURLOPT_URL, $url);
@@ -83,12 +85,24 @@ class Pokeapi
     }
 
     /**
-     * Listado de sedes
+     * Listado de pokemons
      */
-    public function getSedes(){
+    public function getPokemons()
+    {
+        $this->call(Pokemon::URL  . "/?limit=2000");
 
-        $this->call(config('app.API_MDS_URL').'/unidb/sedes?search='.'&limit=500');
-
+        return $this;
     }
+
+    /**
+     * Detalle de un pokemon
+     */
+    public function getPokemon($id)
+    {
+        $this->call(Pokemon::URL . "/" . $id);
+
+        return $this;
+    }
+
 
 }
