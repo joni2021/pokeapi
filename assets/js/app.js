@@ -146,7 +146,7 @@ function showPokemons(pokemons)
         let abilities = getProperties(pokemon.abilities, 'name');
 
         output += `
-        <div class="col-6 my-3">
+        <div class="col-12 col-lg-6 my-3">
                 <article class="card p-2 pokemons">
                     <div class="row">
                         <div class="col-auto">
